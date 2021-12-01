@@ -11,10 +11,10 @@ then, to start, run
 ```
 $ python -m igurklang.kernel
 ```
-this will output
+this will output something along the lines of
 ```
 ...
 To connect another client to this kernel, use:
     --existing kernel-number.json
 ```
-then use `ipython console --existing kernel-number.json`
+then use `jupyter console --existing kernel-number.json`
