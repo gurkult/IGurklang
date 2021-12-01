@@ -5,8 +5,6 @@ from pygments.lexers import load_lexer_from_file
 from contextlib import redirect_stdout, redirect_stderr
 from io import StringIO
 
-load_lexer_from_file('lexer.py', 'GurkLexer')
-
 def make_erroring(f):
     def fun(*args, **kwargs):
         f(*args, **kwargs)
@@ -19,7 +17,7 @@ r._display_runtime_error = make_erroring(r._display_runtime_error)
 r._display_parse_error = make_erroring(r._display_parse_error)
 
 
-class EchoKernel(Kernel):
+class GurkKernel(Kernel):
     implementation = 'py-gurklang'
     implementation_version = '0.1'
     language = 'gurklang'
@@ -62,4 +60,4 @@ class EchoKernel(Kernel):
 
 if __name__ == '__main__':
     from ipykernel.kernelapp import IPKernelApp
-    IPKernelApp.launch_instance(kernel_class=EchoKernel)
+    IPKernelApp.launch_instance(kernel_class=Kernel)

@@ -2,13 +2,19 @@
 Jupyter kernel for gurklang
 
 # Setup
-follow the instructions over at [py-gurklang](py-gurklang/README.md)
-
-then install igurklang dependencies
+clone the repo and navigate to it
 ```
-/env/bin/python -m pip install -r requirements.txt
+$ pip install  git+https://github.com/gurkult/py-gurklang.git@lakmatiol/packaging
+$ pip install .
 ```
-then run the kernel as
+then, to start, run
 ```
-/env/bin/python igurklang.py
+$ python -m igurklang.kernel
 ```
+this will output
+```
+...
+To connect another client to this kernel, use:
+    --existing kernel-number.json
+```
+then use `ipython console --existing kernel-number.json`
