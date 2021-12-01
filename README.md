@@ -17,4 +17,8 @@ this will output something along the lines of
 To connect another client to this kernel, use:
     --existing kernel-number.json
 ```
+you can also install the kernel using
+```
+$ jupyter kernelspec install gurklang_kernel
+```
 then use `jupyter console --existing kernel-number.json`
