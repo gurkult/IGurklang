@@ -1,0 +1,6 @@
+{ 
+    "argv": ["python", "-m", "igurklang.kernel", "-f", "{connection_file}"],
+    "display_name": "gurklang",
+    "language": "gurklang"
+}
+   
