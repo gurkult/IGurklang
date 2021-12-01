@@ -6,6 +6,5 @@ setup(
     author = 'lakmatiol',
     description='gurklang kernel for jupyter',
     license='MIT',
-    packages=['igurklang', 'gurklang'],
-    package_dir={'gurklang':'./py-gurklang/gurklang'},
+    packages=['igurklang'],
 )
