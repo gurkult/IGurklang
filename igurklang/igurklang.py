@@ -1,35 +1,50 @@
 from ipykernel.kernelbase import Kernel
-import sys
-sys.path.append('gurklang')
 from gurklang.repl import Repl
+import gurklang.repl as r
+from pygments.lexers import load_lexer_from_file
 from contextlib import redirect_stdout, redirect_stderr
 from io import StringIO
 
-class EchoKernel(Kernel):
+load_lexer_from_file('lexer.py', 'GurkLexer')
 
-    implementation = 'Echo'
-    implementation_version = '1.0'
-    language = 'no-op'
+def make_erroring(f):
+    def fun(*args, **kwargs):
+        f(*args, **kwargs)
+        raise RuntimeError
+    return fun
+
+
+
+r._display_runtime_error = make_erroring(r._display_runtime_error)
+r._display_parse_error = make_erroring(r._display_parse_error)
+
+
+class EchoKernel(Kernel):
+    implementation = 'py-gurklang'
+    implementation_version = '0.1'
+    language = 'gurklang'
     language_version = '0.1'
     language_info = {
-        'name': 'Any text',
-        'mimetype': 'text/plain',
-        'file_extension': '.txt',
+        'name': 'gurklang',
+        'mimetype': 'text/gurklang',
+        'file_extension': '.gurk',
     }
-    banner = "Echo kernel - as useful as a parrot"
+    banner = "Gurklang - \N{CUCUMBER}"
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.repl = Repl()
-
-    def do_run(self, code):
-        self.repl._process_command(code)
 
     def do_execute(self, code, silent, store_history=True, user_expressions=None,
                    allow_stdin=False):
         stdout = StringIO()
         stderr = StringIO()
         with redirect_stderr(stderr), redirect_stdout(stdout):
-            self.do_run(code)
+            try:
+                self.repl._process_command(code)
+            except RuntimeError:
+                status = 'error'
+            else:
+                status = 'ok'
 
         if not silent:
             if stdout.getvalue():
@@ -38,7 +53,7 @@ class EchoKernel(Kernel):
             if stderr.getvalue():
                 stream_content = {'name': 'stderr', 'text': stderr.getvalue()}
                 self.send_response(self.iopub_socket, 'stream', stream_content)
-        return {'status': 'ok',
+        return {'status': status,
                 # The base class increments the execution count
                 'execution_count': self.execution_count,
                 'payload': [],
