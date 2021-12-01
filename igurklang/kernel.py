@@ -28,6 +28,7 @@ class GurkKernel(Kernel):
         'file_extension': '.gurk',
     }
     banner = "Gurklang - \N{CUCUMBER}"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.repl = Repl()
@@ -60,4 +61,4 @@ class GurkKernel(Kernel):
 
 if __name__ == '__main__':
     from ipykernel.kernelapp import IPKernelApp
-    IPKernelApp.launch_instance(kernel_class=Kernel)
+    IPKernelApp.launch_instance(kernel_class=GurkKernel)
